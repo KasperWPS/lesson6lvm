@@ -1,0 +1,127 @@
+Script started on Sat 02 Dec 2023 09:51:41 AM UTC
+[root@localhost vagrant]# lsblk
+NAME                     MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda                        8:0    0   10G  0 disk 
+└─vg_root-lv_root        253:7    0   10G  0 lvm  
+sdb                        8:16   0    2G  0 disk 
+sdc                        8:32   0    1G  0 disk 
+├─vg_var-lv_var_rmeta_0  253:2    0    4M  0 lvm  
+│ └─vg_var-lv_var        253:6    0  952M  0 lvm  /var
+└─vg_var-lv_var_rimage_0 253:3    0  952M  0 lvm  
+  └─vg_var-lv_var        253:6    0  952M  0 lvm  /var
+sdd                        8:48   0    1G  0 disk 
+├─vg_var-lv_var_rmeta_1  253:4    0    4M  0 lvm  
+│ └─vg_var-lv_var        253:6    0  952M  0 lvm  /var
+└─vg_var-lv_var_rimage_1 253:5    0  952M  0 lvm  
+  └─vg_var-lv_var        253:6    0  952M  0 lvm  /var
+sde                        8:64   0   40G  0 disk 
+├─sde1                     8:65   0    1M  0 part 
+├─sde2                     8:66   0    1G  0 part /boot
+└─sde3                     8:67   0   39G  0 part 
+  ├─VolGroup00-LogVol00  253:0    0    8G  0 lvm  /
+  └─VolGroup00-LogVol01  253:1    0  1.5G  0 lvm  [SWAP]
+[root@localhost vagrant]# lvremove de/[K[K[K/dev/vg_root/lv_root 
+Do you really want to remove active logical volume vg_root/lv_root? [y/n]: y
+  Logical volume "lv_root" successfully removed
+[root@localhost vagrant]# vg_remo[K[K[K[K[Kremove /dev/vg_root
+  Volume group "vg_root" successfully removed
+[root@localhost vagrant]# pvremove /dev/sdb
+  No PV label found on /dev/sdb.
+[root@localhost vagrant]# lvcreate -n LogVol_Home -L 2G /dev/VolGroip[K[Kup00
+  Logical volume "LogVol_Home" created.
+[root@localhost vagrant]# mkfs.xfs /dev/VolGroup00/LogVol_Home 
+meta-data=/dev/VolGroup00/LogVol_Home isize=512    agcount=4, agsize=131072 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=524288, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+[root@localhost vagrant]# mount /dev/VolGroup00/LogVol_Home / home[1Phome[C[C[C[C[K[K[K[Kmn`[Kt/[K
+[root@localhost vagrant]# cp -aR /home/* /mnt/
+[root@localhost vagrant]# rm -rf /home/*
+[root@localhost vagrant]# umount /mnt/
+[root@localhost vagrant]# umount /mnt/rm -rf /home/*cp -aR /home/* /mnt/mount /dev/VolGroup00/LogVol_Home /mnt[K[K[Khome/[K
+[root@localhost vagrant]# ls -la /home/[K
+total 0
+drwxr-xr-x.  3 root    root     21 Dec  2 09:55 [0m[01;34m.[0m
+drwxr-xr-x. 17 root    root    224 Dec  2 09:21 [01;34m..[0m
+drwx------.  3 vagrant vagrant  74 May 12  2018 [01;34mvagrant[0m
+[root@localhost vagrant]# ls -la /home[27@mount /dev/VolGroup00/LogVol_Home[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cumount /mnt/[Krm -rf /home/*cp -aR /home/* /mnt/mount /dev/VolGroup00/LogVol_Home /mnt[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Pkfs.xfs /dev/VolGroup00/LogVol_Home [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Clvcreate -n LogVol_Home -L 2G /dev/VolGroup00[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[28Ppvremove /dev/sdbvgremove /dev/vg_rootlvremove /dev/vg_root/lv_root [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Csblk[K[1Pexitcat /boot/grub2/grub.cfg | grep vg_root[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cetc/fstab [Kecho "`blkid | grep var: | awk '{print $2}'` /var ext4  defaults 0 0" >> /etc/fstab [A[24Pmount  /dev/vg_var/lv_var /var
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cecho "`blkid | grep var: | awk '{print $2}'` /var ext4  defaults 0 0" >> /etc/fstab [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cr: | awk '{print $2}'` /var ext4 d[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cr: | awk '{print $2}'` /var ext4 de[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C: | awk '{print $2}'` /var ext4 def[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ch: | awk '{print $2}'` /var ext4 de[1@f[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Co: | awk '{print $2}'` /var ext4 d[1@e[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cm: | awk '{print $2}'` /var ext4 [1@d[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ce: | awk '{print $2}'` /var ext4[1@ [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C: | awk '{print $2}'` /var ext4 [1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C: | awk '{print $2}'` /var ext4 d[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C: | awk '{print $2}'` /var ext4 de[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C: | awk '{print $2}'` /var ext4 def[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C | awk '{print $2}'` /var ext4 defa[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[CH | awk '{print $2}'` /var ext4 def[1@a[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Co | awk '{print $2}'` /var ext4 de[1@f[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cm | awk '{print $2}'` /var ext4 d[1@e[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ce | awk '{print $2}'` /var ext4 [1@d[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Car ext4 d[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cr ext4 de[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C ext4 def[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ch ext4 de[1@f[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Co ext4 d[1@e[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cm ext4 [1@d[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ce ext4[1@ [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cxt4 [1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ct4 d[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C4 de[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C def[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cx de[1@f[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cf d[1@e[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cs [1@d[C[C[C
+[root@localhost vagrant]# touch /home/file{}1}.}.}2}0}[C
+[root@localhost vagrant]# ls -l /home/
+total 0
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file1
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file10
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file11
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file12
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file13
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file14
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file15
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file16
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file17
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file18
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file19
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file2
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file20
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file3
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file4
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file5
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file6
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file7
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file8
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file9
+drwx------. 3 vagrant vagrant 74 May 12  2018 [0m[01;34mvagrant[0m
+[root@localhost vagrant]# lvcreate -L 100MB -s -n home_snap /dev/VolGroup00/LogV ol_Home
+  Rounding up size to full physical extent 128.00 MiB
+  Logical volume "home_snap" created.
+[root@localhost vagrant]# rm -f /home/file{}1}1}.}.}2}0}0}[1P}[C[C[C[C
+[root@localhost vagrant]# rm -f /home/file{11..20}lvcreate -L 100MB -s -n home_snap /dev/VolGroup00/LogVool_Home[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cs -l /home/[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+total 0
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file1
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file10
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file2
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file3
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file4
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file5
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file6
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file7
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file8
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file9
+drwx------. 3 vagrant vagrant 74 May 12  2018 [0m[01;34mvagrant[0m
+[root@localhost vagrant]# umount /home/[K
+[root@localhost vagrant]# lvconvert --merge /dev/VolGroup00/home_snap 
+  Merging of volume VolGroup00/home_snap started.
+  VolGroup00/LogVol_Home: Merged: 100.00%
+[root@localhost vagrant]# mount /home
+[root@localhost vagrant]# lsmount /homelvconvert --merge /dev/VolGroup00/home_snap [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cumount /home[Kls -l /home/
+total 0
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file1
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file10
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file11
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file12
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file13
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file14
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file15
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file16
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file17
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file18
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file19
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file2
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file20
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file3
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file4
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file5
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file6
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file7
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file8
+-rw-r--r--. 1 root    root     0 Dec  2 09:58 file9
+drwx------. 3 vagrant vagrant 74 May 12  2018 [0m[01;34mvagrant[0m
+[root@localhost vagrant]# exit
+exit
+
+Script done on Sat 02 Dec 2023 10:02:52 AM UTC
